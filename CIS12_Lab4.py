@@ -1,13 +1,10 @@
+from turtle import *
 import math
 import time
-from turtle import *
-speed(10) # speed is set to fast
-#hideturtle() # hide the turtle object
-screen = Screen() # create a window to draw in
-screen.bgcolor("light blue") # set the background color of the screen
-screen.setup(width=600, height=600) # set the dimensions of the screen
-color("red")
 shape("turtle")
+bgcolor("light blue")
+color("red")
+speed(0)
 
 def pause(amount=2.0):
     time.sleep(amount) # pause python for 2 seconds
@@ -24,6 +21,8 @@ def draw_circle(radius):
     circle(radius)
 
 draw_square(100)
+pause()
 draw_circle(50)
+pause()
 
 print(math.pi*2)
