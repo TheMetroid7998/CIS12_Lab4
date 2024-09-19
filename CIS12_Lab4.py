@@ -2,8 +2,9 @@ from turtle import *
 import time
 import random
 shape("turtle")
-bgcolor("light blue")
+bgcolor("dark blue")
 color("red")
+hideturtle()
 speed(0)
 
 def pause(amount=2.0):
@@ -35,23 +36,26 @@ def draw_polygon(side, length):
 
 def draw_pumpkin(x, y, radius):
     """Draws a pumpkin (orange circle) at the given (x, y) location with a green stem."""
-    jump(x,y)
+    jump(x,y) # draws pumpkin
+    print(f"Pumpkin Coordinates: x:{x}, y:{y}, radius:{radius}.")
     fillcolor("orange")
     begin_fill()
     circle(radius)
     end_fill()
-    jump(x+radius*0.5, y+radius*2)
+    jump(x+radius*0.1, y+radius*2) # draws stem
+    print(f"Stem Coordinates: x:{x+radius*0.1}, y:{y+radius*2}")
     fillcolor("green")
     begin_fill()
-    for _ in range(4):
-        left(90)
-        for x in range(2, 5):
-            forward(radius // x)
+    for _ in range(2):
+        for s in (2, 5):
+            left(90)
+            forward(radius // s)
     end_fill()
 
 def draw_eye(x, y, size):
     """Draws one triangular eye at the given (x, y) position."""
-    jump(x-15, y+10)
+    jump(x-size//2, y+size//3)
+    print(f"Eye Coordinates: x:{x-size//2}, y:{y+size//3}, size:{size}.")
     fillcolor("yellow")
     begin_fill()
     draw_polygon(3, size)
@@ -59,7 +63,8 @@ def draw_eye(x, y, size):
 
 def draw_mouth(x, y, width):
     """Draws a jagged mouth using a series of connected lines."""
-    jump(x, y+20)
+    jump(x-(width*0.05), y+(width*0.2))
+    print(f"Mouth Coordinates: x:{x-(width*0.05)}, y: {y+(width*0.2)}, width:{width}.")
     fillcolor("yellow")
     begin_fill()
     right(60)
@@ -70,13 +75,18 @@ def draw_mouth(x, y, width):
         right(120)
     left(240)
     forward(width)
+    right(180)
     end_fill()
 
-#draw_pumpkin(0,-100, 100)
-#draw_eye(40, 0, 30)
-#draw_eye(-40, 0, 30)
-#draw_mouth(-50, -50, 100)
-#pause()
+def draw_jack(x, y, radius):
+    draw_pumpkin(x, y, radius)
+    draw_eye(x-radius*0.365, y+radius*1.07, radius // 3)
+    draw_eye(x+radius*0.365, y+radius*1.07, radius // 3)
+    draw_mouth(x-radius*0.365, y+radius*0.5, radius*0.8)
+    jump(x, y)
+    print("""
+   
+""")
 
 def draw_star(x, y, size):
     """Draws a star at the given (x, y) position."""
@@ -88,35 +98,27 @@ def draw_star(x, y, size):
         right(144)
     end_fill()
 
-#draw_star(-100, 150, 30)
-#draw_star(100, 150, 20)
-#pause()
-
-def draw_sky(n):
-    """Draws a starry sky with the given number of stars."""
+def draw_section(n, xx, yx, xy, yy):
+    """Draws a section of a starry sky with the given number of stars."""
     for _ in range(n):
-        x = random.randint(-300, -220)
-        y = random.randint(0, 300)
+        x = random.randint(xx, yx)
+        y = random.randint(xy, yy)
         size = random.randint(10, 30)
         draw_star(x, y, size)
 
-#draw_sky(30)
-#pause()
+def draw_sky(n):
+    """Draws a starry sky in sections with the given number of stars as reference."""
+    draw_section(n // 5, -300, -220, 0, 300)
+    draw_section(n // 6, -220, -120, 70, 300)
+    draw_section(n // 3, -120, 120, -30, 300)
+    draw_section(n // 6, 120, 220, 70, 300)
+    draw_section(n // 5, 220, 300, 0, 300)
 
-draw_pumpkin(-180, -250, 100)
-draw_eye(-220, -160, 30)
-draw_eye(-140, -160, 30)
-draw_mouth(-220, -200, 80)
+draw_jack(x=-180, y=-250, radius=100)
 
-draw_pumpkin(0, -150, 40)
-draw_eye(0, -190, 7)
-draw_eye(35, -190, 7)
-draw_mouth(20, -220, 25)
+draw_jack(x=0, y=-150, radius=50)
 
-draw_pumpkin(170, -250, 100)
-draw_eye(130, -160, 30)
-draw_eye(210, -160, 30)
-draw_mouth(130, -200, 80)
+draw_jack(x=170, y=-250, radius=100)
 
 draw_sky(30)
-pause(30)
+pause(20)
