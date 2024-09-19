@@ -85,7 +85,6 @@ def draw_jack(x, y, radius):
     draw_mouth(x-radius*0.365, y+radius*0.5, radius*0.8)
     jump(x, y)
     print("""
-   
 """)
 
 def draw_star(x, y, size):

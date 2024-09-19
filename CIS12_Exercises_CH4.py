@@ -62,8 +62,8 @@ def rectangle(length, height, int_angle=90):
     """Uses `parallelogram` to draw a rectangle with fixed angles."""
     parallelogram(length, height, int_angle)
 
-rectangle(80, 40)
-pause()
+#rectangle(80, 40)
+#pause()
 
 print ("Exercise 2")
 
@@ -71,41 +71,37 @@ def rhombus(length, height, int_angle):
     """Uses `parallelogram` to draw a rhombus with given dimensions."""
     parallelogram(length, height, int_angle)
 
-rhombus(50, 80, 60)
-pause()
+#rhombus(50, 80, 60)
+#pause()
 
 print ("Exercise 3")
 
-def iso_tri(base, side):
-    """
-    Draws an isosceles triangle with given base and side values.
-    Does not accept certain values due to correction method used.
-    (The calculated angle is subtracted from 180 to create the correct angle,
-    but this creates a negative number for calculated angles less than 180.)
-    """
-    angle_base = 180 - math.degrees(math.acos((base**2)/(2*side*base)))
-    angle_vertex = 180 - math.degrees(math.acos((2*(side**2)-(base**2))/(2*(side**2))))
-    #print(f"{angle_base}")
-    #print(f"{angle_vertex}")
-    polyline(1, length=base, angle=angle_base) # base
-    polyline(1, length=side, angle=angle_vertex) # right side
-    polyline(1, length=side, angle=angle_base) # left side
+def iso_tri(side, int_angle):
+    """Draws an isosceles triangle with given base and side values."""
+    ext_angle = 180 - int_angle
+    vtx_angle = 180 - 2 * int_angle
+    fin_angle = 180
+    base = 2*side*math.sin(math.radians(vtx_angle/2))
+    polyline(n=1, length=side, angle=ext_angle) # line out
+    polyline(n=1, length=base, angle=ext_angle)  # base
+    polyline(n=1, length=side, angle=fin_angle)  # line in, around
 
-
-iso_tri(75, 130)
-pause()
-#iso_tri(175, 65) # these values are not acceptable, see documentation
+#iso_tri(75, 66)
 #pause()
 
-def draw_pie(n, base, side):
-    """Uses `iso_tri` to draw a 'pie' made of triangle segments."""
+def draw_pie(n, side):
+    """Uses `iso_tri` to draw a 'pie' made of triangle segments. Moves counter-clockwise."""
+    int_angle = (180 - (360 / n)) / 2
     for _ in range(n):
-        iso_tri(base, side)
-        polyline(1, length=base, angle=0)  # base
-        left(360 / n)
+        iso_tri(side, int_angle)
 
-draw_pie(5, 75, 80) # not quite right, but it'll do
-draw_pie(7, 75, 80) # definitely not right
+draw_pie(5, 75)
+pause()
+draw_pie(6, 75)
+pause()
+draw_pie(7, 75)
+pause()
+draw_pie(9, 75)
 pause()
 
 print ("Exercise 4")
